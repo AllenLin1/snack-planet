@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#140f3a" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="data:," />
+    <title>Snack Planet · Privacy</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html,
+      body {
+        margin: 0;
+        background: #0b1030;
+        color: #e9e5ff;
+        font: 17px/1.55 Fredoka, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      }
+      main {
+        box-sizing: border-box;
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 28px 20px 48px;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: 30px;
+        color: #ffd166;
+      }
+      h2 {
+        margin: 26px 0 6px;
+        font-size: 19px;
+        color: #c9b8ff;
+      }
+      p,
+      ul {
+        margin: 6px 0;
+      }
+      ul {
+        padding-left: 22px;
+      }
+      li {
+        margin: 3px 0;
+      }
+      .date {
+        margin: 0 0 20px;
+        color: #a99fd6;
+        font-size: 15px;
+      }
+      .card {
+        margin: 18px 0;
+        padding: 16px 18px;
+        border-radius: 16px;
+        background: #1b1550;
+        border: 2px solid #3a2f8a;
+      }
+      button {
+        appearance: none;
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 20px;
+        font: 700 16px/1.2 inherit;
+        font-family: inherit;
+        color: #1b1550;
+        background: #ffd166;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #ffe08f;
+      }
+      button:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 3px;
+      }
+      #state {
+        margin-top: 10px;
+        font-weight: 700;
+      }
+      .on {
+        color: #8ef0a8;
+      }
+      .off {
+        color: #ffb3c0;
+      }
+      code {
+        font-size: 14px;
+        color: #c9b8ff;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Snack Planet · Privacy</h1>
+      <p class="date">Last updated: 1 November 2026</p>
+
+      <p>
+        Snack Planet is a free browser game. We keep this simple: there are no accounts, no ads in this version, and we
+        never ask for your name, email or other personal details.
+      </p>
+
+      <h2>Anonymous gameplay analytics</h2>
+      <p>
+        To learn where the game is fun and where players get stuck, we use
+        <strong>ByteBrew</strong> (bytebrew.io), an analytics service for games. When analytics is on, the game sends:
+      </p>
+      <ul>
+        <li>
+          <strong>A random user ID</strong> that ByteBrew creates and keeps in a cookie or browser storage on your
+          device. It is not linked to your name or any account.
+        </li>
+        <li>
+          <strong>Gameplay events</strong>, for example: the game started, how many minutes you have played, a throw's
+          distance and the zone it landed in, a new creature found, an upgrade bought, a tip shown or completed, and
+          offline coins collected.
+        </li>
+        <li>
+          <strong>Device and browser information</strong> that comes with any web request, such as browser type,
+          language, screen size, rough country, and the game version. ByteBrew receives your IP address when the
+          game talks to its servers.
+        </li>
+      </ul>
+      <p>We use this only to improve the game. We do not sell it, and we do not use it for advertising.</p>
+      <!-- Owner: add a link to ByteBrew's own privacy policy here once confirmed. -->
+
+      <h2>Your saved game</h2>
+      <p>
+        Your progress (coins, upgrades, creatures, settings) is saved in your browser's <code>localStorage</code> on
+        this device. It is not uploaded anywhere. Clearing this site's data in your browser deletes it.
+      </p>
+
+      <h2>How to turn analytics off</h2>
+      <div class="card">
+        <p>
+          Press the button below. The game will not start analytics again in this browser, and if it was running it is
+          stopped the next time the game loads. Your saved game is not affected.
+        </p>
+        <p><button id="off" type="button">Turn off analytics</button></p>
+        <p id="state" role="status" aria-live="polite"></p>
+      </div>
+      <p>
+        You can also clear this site's cookies and storage in your browser settings, or use your browser's tracking
+        protection. Note that clearing site data deletes your saved game too.
+      </p>
+
+      <h2>Children</h2>
+      <p>The game does not knowingly collect personal information from children, and has no chat or sign-up.</p>
+
+      <h2>Contact</h2>
+      <p>Questions or requests about your data: <a href="mailto:623591748w@gmail.com"><strong>623591748w@gmail.com</strong></a></p>
+    </main>
+    <script>
+      (function () {
+        var KEY = 'snackplanet.analytics';
+        var state = document.getElementById('state');
+        function read() {
+          try {
+            return localStorage.getItem(KEY);
+          } catch (e) {
+            return null;
+          }
+        }
+        function show(msg) {
+          var off = read() === 'off';
+          state.className = off ? 'off' : 'on';
+          state.textContent = msg || (off ? 'Analytics is off in this browser.' : 'Analytics is on in this browser.');
+        }
+        document.getElementById('off').addEventListener('click', function () {
+          try {
+            localStorage.setItem(KEY, 'off');
+            show('Analytics is now off in this browser. You can close this tab.');
+          } catch (e) {
+            show('Your browser blocked storage, so the setting could not be saved. Blocking site cookies and storage also blocks analytics.');
+          }
+        });
+        show();
+      })();
+    </script>
+  </body>
+</html>
