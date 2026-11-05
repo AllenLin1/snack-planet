@@ -81,8 +81,30 @@
       @media (orientation: portrait) and (pointer: coarse) {
         #rotate { display: flex; }
       }
+      /* iOS app only (main.ts adds .ios when VITE_PLATFORM=ios). The web view is full screen; the
+         canvas keeps clear of the Dynamic Island and the screen corners (left/right/top insets) and
+         the bars around the 16:9 game show the same starfield, blurred and dimmed. No bottom inset:
+         on a landscape iPhone the game's height is the limit and taps over the home indicator are
+         fine (the app defers the swipe-up gesture). An iPad window held upright letterboxes the game
+         instead of asking to rotate. */
+      .ios body::before {
+        content: '';
+        position: fixed;
+        inset: -24px;
+        background: #0b1030 url('assets/bg/space.webp') center / cover no-repeat;
+        filter: blur(10px) brightness(0.55);
+      }
+      .ios #game {
+        top: env(safe-area-inset-top);
+        right: env(safe-area-inset-right);
+        bottom: 0;
+        left: env(safe-area-inset-left);
+      }
+      .ios #rotate {
+        display: none !important;
+      }
     </style>
-    <script type="module" crossorigin src="./assets/index-VWS22mzJ.js"></script>
+    <script type="module" crossorigin src="./assets/index-CEvLMeFj.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/phaser-0YPJO2g1.js">
     <link rel="stylesheet" crossorigin href="./assets/index-D0pTdJVV.css">
   </head>
